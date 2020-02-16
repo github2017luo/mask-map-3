@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+}
+
+.listWrap {
+  width: 1300px;
+  margin: auto;
+  .inputWrap {
+    // text-align: left;
+    margin: 20px 0;
+    input {
+      width: 500px;
+    }
+  }
+}
+.mapListTitle,
+.mapListItem {
+  display: flex;
+  flex-wrap: nowrap;
+  border-bottom: 1px solid #ccc;
+  div {
+    flex: 1;
+    padding: 10px 0;
+  }
+  .address {
+    flex: 3;
+  }
+  .name {
+    flex: 2;
+  }
+  .updated {
+    flex: 2;
+  }
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.information {
+  padding: 10px 0;
+}
