@@ -1,10 +1,17 @@
+html {
+  font-size: 62.5%;
+}
+
 .App {
-  text-align: center;
+  // text-align: center;
+  width: 996px;
+  margin: auto;
 }
 
 .listWrap {
-  width: 1300px;
+  width: 100%;
   margin: auto;
+  // outline: 1px solid red;
   .inputWrap {
     // text-align: left;
     margin: 20px 0;
@@ -12,30 +19,49 @@
       width: 500px;
     }
   }
+  .mapList {
+    display: inline-flex;
+    flex-wrap: wrap;
+    .mapListItem {
+      // display: inline-flex;
+      // flex-wrap: wrap;
+      display: flex;
+      width: 50%;
+      // outline: 1px solid blue;
+      .listWrap {
+        width: 100%;
+        border: 1px blue solid;
+        border-radius: 10px;
+        margin: 2.5%;
+        display: flex;
+        padding: 10px 0;
+        .img {
+          flex: 1;
+        }
+        .items {
+          flex: 2.5;
+          .title {
+            margin-right: 10px;
+          }
+        }
+      }
+      // div {
+      //   flex: 1;
+      //   padding: 10px 0;
+      // }
+    }
+  }
 }
-.mapListTitle,
-.mapListItem {
-  display: flex;
-  flex-wrap: nowrap;
-  border-bottom: 1px solid #ccc;
-  div {
-    flex: 1;
-    padding: 10px 0;
-  }
-  .address {
-    flex: 3;
-  }
-  .name {
-    flex: 2;
-  }
-  .updated {
-    flex: 2;
-  }
-  &:last-child {
-    border-bottom: none;
-  }
-}
+// .mapListTitle,
+// .mapListItem {
+//   display: flex;
+//   // flex-wrap: nowrap;
+//   div {
+//     flex: 1;
+//     padding: 10px 0;
+//   }
+// }
 
-.information {
-  padding: 10px 0;
-}
+// .information {
+//   padding: 10px 0;
+// }

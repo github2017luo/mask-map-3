@@ -26,14 +26,44 @@ const MapItem = React.memo(({ dataList }) => {
   if (dataList.length === 0) return <div>沒有資料</div>;
   return dataList.map((itm, idx) => {
     return (
-      <div className="mapListItem" key={itm["id"]}>
-        <div className="name">{itm["name"]}</div>
-        <div className="mask_adult">{itm["mask_adult"]}</div>
-        <div className="mask_child">{itm["mask_child"]}</div>
-        <div className="address">{itm["address"]}</div>
-        <div className="phone">{itm["phone"]}</div>
-        <div className="updated">{itm["updated"]}</div>
-      </div>
+      <a
+        className="mapListItem"
+        key={itm["properties"]["id"]}
+        href={`https://www.google.com.tw/maps/place/${itm["geometry"]["coordinates"][1]},${itm["geometry"]["coordinates"][0]}`}
+        target="_blank"
+      >
+        <div className="listWrap">
+          <div className="img">
+            <img src="" alt="" />
+          </div>
+          <div className="items">
+            <div className="name">
+              <span className="title">藥局姓名</span>
+              <span>{itm["properties"]["name"]}</span>
+            </div>
+            <div className="mask_adult">
+              <span className="title">成人口罩</span>
+              <span>{itm["properties"]["mask_adult"]}</span>
+            </div>
+            <div className="mask_child">
+              <span className="title">小孩口罩</span>
+              <span>{itm["properties"]["mask_child"]}</span>
+            </div>
+            <div className="address">
+              <span className="title">地　　址</span>
+              <span>{itm["properties"]["address"]}</span>
+            </div>
+            <div className="phone">
+              <span className="title">電　　話</span>
+              <span>{itm["properties"]["phone"]}</span>
+            </div>
+            <div className="updated">
+              <span className="title">更新時間</span>
+              <span>{itm["properties"]["updated"]}</span>
+            </div>
+          </div>
+        </div>
+      </a>
     );
   });
 });
@@ -44,13 +74,13 @@ const MapList = ({ mapData }) => {
 
   const dataFilter = searchText => {
     let mapArr = mapData.filter(
-      (itm, idx) => itm["address"].indexOf(searchText) !== -1
+      (itm, idx) => itm["properties"]["address"].indexOf(searchText) !== -1
     );
     setDataList(mapArr);
   };
 
   const debounceSearch = useRef(debounce(dataFilter, 800));
-
+  console.log("dataList", dataList);
   useEffect(() => {
     debounceSearch.current(searchText);
   }, [searchText]);
@@ -69,14 +99,14 @@ const MapList = ({ mapData }) => {
           placeholder="台北市、大安區、基隆路"
         />
       </div>
-      <div className="mapListTitle">
+      {/* <div className="mapListTitle">
         <div className="name">藥局姓名</div>
         <div className="mask_adult">大人口罩</div>
         <div className="mask_child">小孩口罩</div>
         <div className="address">地址</div>
         <div className="phone">電話</div>
         <div className="updated">更新時間</div>
-      </div>
+      </div> */}
       <div className="mapList">
         <MapItem dataList={dataList}></MapItem>
       </div>
@@ -87,6 +117,7 @@ const MapList = ({ mapData }) => {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mapData, setMapData] = useState([]);
+  const [test, setTest] = useState([]);
   const [errText, setErrText] = useState("");
   useEffect(() => {
     fetch(
@@ -96,8 +127,10 @@ function App() {
         return response.json();
       })
       .then(data => {
-        let mapArr = Object.values(data)[1].map(itm => Object.values(itm)[1]);
+        // let mapArr = Object.values(data)[1].map(itm => Object.values(itm)[1]);
+        let mapArr = Object.values(data)[1];
         setMapData(mapArr);
+        // setTest(test);
         setIsLoading(false);
       })
       .catch(err => setErrText("好像壞了"));
@@ -105,6 +138,7 @@ function App() {
   if (isLoading) return <div>資料加載中</div>;
   if (errText) return <div>{errText}</div>;
   if (!mapData || mapData.length === 0) return <div>沒有資料</div>;
+  // console.log("test", test);
   return (
     <div className="App">
       <h1>口罩即時庫存列表</h1>
