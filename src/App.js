@@ -99,14 +99,6 @@ const MapList = ({ mapData }) => {
           placeholder="台北市、大安區、基隆路"
         />
       </div>
-      {/* <div className="mapListTitle">
-        <div className="name">藥局姓名</div>
-        <div className="mask_adult">大人口罩</div>
-        <div className="mask_child">小孩口罩</div>
-        <div className="address">地址</div>
-        <div className="phone">電話</div>
-        <div className="updated">更新時間</div>
-      </div> */}
       <div className="mapList">
         <MapItem dataList={dataList}></MapItem>
       </div>
