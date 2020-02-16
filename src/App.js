@@ -107,7 +107,7 @@ function App() {
   if (!mapData || mapData.length === 0) return <div>沒有資料</div>;
   return (
     <div className="App">
-      {/* <h1>口罩即時庫存列表</h1> */}
+      <h1>口罩即時庫存列表</h1>
       <MapList mapData={mapData} isLoading={isLoading} />
       <div className="information">
         資料提供：
