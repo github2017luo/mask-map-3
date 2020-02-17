@@ -1,11 +1,21 @@
 html {
   font-size: 62.5%;
+  // width: 996px;
+  // margin: auto;
+  // background-color: gray;
 }
 
 .App {
   // text-align: center;
   width: 996px;
   margin: auto;
+  background-color: #fff;
+}
+@media screen and (max-width: 996px) {
+  .App {
+    width: 100%;
+    margin: none;
+  }
 }
 
 .listWrap {
@@ -23,16 +33,14 @@ html {
     display: inline-flex;
     flex-wrap: wrap;
     .mapListItem {
-      // display: inline-flex;
-      // flex-wrap: wrap;
       display: flex;
-      width: 50%;
-      // outline: 1px solid blue;
+      width: 100%;
+      text-decoration: none;
       .listWrap {
         width: 100%;
         border: 1px blue solid;
         border-radius: 10px;
-        margin: 2.5%;
+        margin: 1%;
         display: flex;
         padding: 10px 0;
         .img {

@@ -38,7 +38,7 @@ const MapItem = React.memo(({ dataList }) => {
           </div>
           <div className="items">
             <div className="name">
-              <span className="title">藥局姓名</span>
+              {/* <span className="title">藥局姓名</span> */}
               <span>{itm["properties"]["name"]}</span>
             </div>
             <div className="mask_adult">
