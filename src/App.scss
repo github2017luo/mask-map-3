@@ -11,12 +11,12 @@ html {
   margin: auto;
   background-color: #fff;
   position: relative;
-  height: 100vh;
-  overflow: scroll;
+  // height: 100vh;
+  // overflow: scroll;
   > .loading {
     position: absolute;
     margin: auto;
-    top: 0;
+    top: 500px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -31,6 +31,9 @@ html {
   .App {
     width: 100%;
     margin: none;
+    > .header {
+      width: 100%;
+    }
   }
 }
 .header {
@@ -99,9 +102,19 @@ html {
         .phone,
         .address {
           color: #333;
+          line-height: 16px;
+          font-size: 1.5em;
+        }
+        .phone {
+          margin-bottom: 5px;
+        }
+        .address {
+          margin-bottom: 8px;
         }
         .updated {
           color: #7e7e7e;
+          line-height: 18px;
+          font-size: 1em;
         }
       }
     }
@@ -115,13 +128,14 @@ html {
         top: 0;
         right: 0;
         left: 0;
-        bottom: 40px;
+        bottom: 45px;
         margin: auto;
         color: #fff;
+        font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 2em;
+        font-size: 2.5em;
       }
       .hasStock {
         background-color: #21aa93;
