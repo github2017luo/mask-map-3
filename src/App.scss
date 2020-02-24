@@ -4,6 +4,11 @@ html {
   // margin: auto;
   // background-color: gray;
 }
+input[type="text"],
+input[type="number"],
+textarea {
+  font-size: 16px;
+}
 
 .App {
   // text-align: center;
