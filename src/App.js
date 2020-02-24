@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import loadingGif from "./maskLoading.gif";
 import "./App.scss";
 
 function debounce(fn, delay, immediate) {
@@ -24,6 +25,8 @@ function debounce(fn, delay, immediate) {
 
 const MapItem = React.memo(({ dataList }) => {
   if (dataList.length === 0) return <div>沒有資料</div>;
+  const hasMask = "#21aa93";
+  const emptyMask = "#434343";
   return dataList.map((itm, idx) => {
     return (
       <a
@@ -33,29 +36,50 @@ const MapItem = React.memo(({ dataList }) => {
         target="_blank"
       >
         <div className="listWrap">
-          <div className="img">
-            <img src="" alt="" />
+          <div className="stock">
+            {itm["properties"]["mask_adult"] > 0 ||
+            itm["properties"]["mask_child"] > 0 ? (
+              <div className="hasStock">
+                <div>有庫存</div>
+              </div>
+            ) : (
+              <div className="emptyStock">
+                <div>無庫存</div>
+              </div>
+            )}
           </div>
           <div className="items">
             <div className="name">
               {/* <span className="title">藥局姓名</span> */}
               <span>{itm["properties"]["name"]}</span>
             </div>
-            <div className="mask_adult">
-              <span className="title">成人口罩</span>
-              <span>{itm["properties"]["mask_adult"]}</span>
-            </div>
-            <div className="mask_child">
-              <span className="title">小孩口罩</span>
-              <span>{itm["properties"]["mask_child"]}</span>
-            </div>
-            <div className="address">
-              <span className="title">地　　址</span>
-              <span>{itm["properties"]["address"]}</span>
+            <div className="mask_number">
+              <span style={{ color: "#fff", background: "#113f67" }}>成人</span>
+              <span
+                style={
+                  itm["properties"]["mask_adult"] > 0
+                    ? { color: hasMask }
+                    : { color: emptyMask }
+                }
+              >
+                {itm["properties"]["mask_adult"]}
+              </span>
+              <span style={{ color: "#fff", background: "#dd6b4d" }}>小孩</span>
+              <span
+                style={
+                  itm["properties"]["mask_child"] > 0
+                    ? { color: hasMask }
+                    : { color: emptyMask }
+                }
+              >
+                {itm["properties"]["mask_child"]}
+              </span>
             </div>
             <div className="phone">
-              <span className="title">電　　話</span>
               <span>{itm["properties"]["phone"]}</span>
+            </div>
+            <div className="address">
+              <span>{itm["properties"]["address"]}</span>
             </div>
             <div className="updated">
               <span className="title">更新時間</span>
@@ -86,23 +110,28 @@ const MapList = ({ mapData }) => {
   }, [searchText]);
 
   return (
-    <div className="listWrap">
-      <div className="inputWrap">
-        <span>請輸入地址：</span>
-        <input
-          type="text"
-          name="address"
-          onChange={e => {
-            setSearchText(e.target.value);
-          }}
-          value={searchText}
-          placeholder="台北市、大安區、基隆路"
-        />
+    <React.Fragment>
+      <div class="header">
+        <h1>口罩即時庫存列表</h1>
+        <div className="listWrap">
+          <div className="inputWrap">
+            <span>請輸入地址：</span>
+            <input
+              type="text"
+              name="address"
+              onChange={e => {
+                setSearchText(e.target.value);
+              }}
+              value={searchText}
+              placeholder="台北市、大安區、基隆路"
+            />
+          </div>
+        </div>
       </div>
       <div className="mapList">
         <MapItem dataList={dataList}></MapItem>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
@@ -127,13 +156,29 @@ function App() {
       })
       .catch(err => setErrText("好像壞了"));
   }, []);
-  if (isLoading) return <div>資料加載中</div>;
-  if (errText) return <div>{errText}</div>;
-  if (!mapData || mapData.length === 0) return <div>沒有資料</div>;
+  if (isLoading)
+    return (
+      <div className="App">
+        <div className="loading">
+          <img src={loadingGif} alt="" />
+        </div>
+      </div>
+    );
+  if (errText)
+    return (
+      <div className="App">
+        <div>{errText}</div>
+      </div>
+    );
+  if (!mapData || mapData.length === 0)
+    return (
+      <div className="App">
+        <div>沒有資料</div>
+      </div>
+    );
   // console.log("test", test);
   return (
     <div className="App">
-      <h1>口罩即時庫存列表</h1>
       <MapList mapData={mapData} isLoading={isLoading} />
       <div className="information">
         資料提供：
