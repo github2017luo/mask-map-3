@@ -31,12 +31,27 @@ textarea {
   > .header {
     width: 996px;
   }
+  > .information {
+    width: 996px;
+    text-align: center;
+  }
+  > .designer {
+    width: 996px;
+    text-align: center;
+    padding: 10px 0;
+  }
 }
 @media screen and (max-width: 996px) {
   .App {
     width: 100%;
     margin: none;
     > .header {
+      width: 100%;
+    }
+    > .information {
+      width: 100%;
+    }
+    > .designer {
       width: 100%;
     }
   }
@@ -74,6 +89,7 @@ textarea {
   flex-wrap: wrap;
   background-color: #eee;
   padding-top: 130px;
+  padding-bottom: 10px;
   width: 100%;
   .mapListItem {
     display: flex;

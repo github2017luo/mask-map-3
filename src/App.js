@@ -150,7 +150,7 @@ function App() {
         setMapData(mapArr);
         // setTest(test);
         setIsLoading(false);
-        console.log("create by Jeremy Chang");
+        console.log("create by Jeremy Chang 02272348");
       })
       .catch(err => setErrText("好像壞了"));
   }, []);
@@ -177,6 +177,7 @@ function App() {
   return (
     <div className="App">
       <MapList mapData={mapData} isLoading={isLoading} />
+      <div className="designer">by Jeremy Chang</div>
       <div className="information">
         資料提供：
         <a href="https://g0v.hackmd.io/gGrOI4_aTsmpoMfLP1OU4A">
