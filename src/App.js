@@ -13,10 +13,8 @@ function debounce(fn, delay, immediate) {
     }
     timer = setTimeout(function() {
       if (!immediate) {
-        console.log("call");
         fn.apply(context, args);
       } else {
-        console.log("null");
         timer = null;
       }
     }, delay);
@@ -34,6 +32,7 @@ const MapItem = React.memo(({ dataList }) => {
         key={itm["properties"]["id"]}
         href={`https://www.google.com.tw/maps/place/${itm["geometry"]["coordinates"][1]},${itm["geometry"]["coordinates"][0]}`}
         target="_blank"
+        rel="noreferrer noopener"
       >
         <div className="listWrap">
           <div className="stock">
@@ -104,14 +103,13 @@ const MapList = ({ mapData }) => {
   };
 
   const debounceSearch = useRef(debounce(dataFilter, 800));
-  console.log("dataList", dataList);
   useEffect(() => {
     debounceSearch.current(searchText);
   }, [searchText]);
 
   return (
     <React.Fragment>
-      <div class="header">
+      <div className="header">
         <h1>口罩即時庫存列表</h1>
         <div className="listWrap">
           <div className="inputWrap">
@@ -138,7 +136,6 @@ const MapList = ({ mapData }) => {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mapData, setMapData] = useState([]);
-  const [test, setTest] = useState([]);
   const [errText, setErrText] = useState("");
   useEffect(() => {
     fetch(
@@ -176,7 +173,6 @@ function App() {
         <div>沒有資料</div>
       </div>
     );
-  // console.log("test", test);
   return (
     <div className="App">
       <MapList mapData={mapData} isLoading={isLoading} />
