@@ -150,7 +150,7 @@ function App() {
         setMapData(mapArr);
         // setTest(test);
         setIsLoading(false);
-        // console.log("create by Jeremy Chang");
+        console.log("create by Jeremy Chang");
       })
       .catch(err => setErrText("好像壞了"));
   }, []);
