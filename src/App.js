@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import loadingGif from "./maskLoading.gif";
+import locationPNG from "./location.png";
 import "./App.scss";
 
 function debounce(fn, delay, immediate) {
@@ -51,6 +52,7 @@ const MapItem = React.memo(({ dataList }) => {
             <div className="name">
               {/* <span className="title">藥局姓名</span> */}
               <span>{itm["properties"]["name"]}</span>
+              <img src={locationPNG} alt="location" />
             </div>
             <div className="mask_number">
               <span style={{ color: "#fff", background: "#113f67" }}>成人</span>
