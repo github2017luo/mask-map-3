@@ -3,6 +3,11 @@ import loadingGif from "./maskLoading.gif";
 import locationPNG from "./location.png";
 import "./App.scss";
 
+function sessionInputValue() {
+  const sessionInput = sessionStorage.getItem("inputValue");
+  return sessionInput ? sessionInput : "";
+}
+console.log("sessionInputValue", sessionInputValue());
 function debounce(fn, delay, immediate) {
   let timer = null;
   return function() {
@@ -23,7 +28,7 @@ function debounce(fn, delay, immediate) {
 }
 
 const MapItem = React.memo(({ dataList }) => {
-  if (dataList.length === 0) return <div>沒有資料</div>;
+  // if (dataList.length === 0) return <div>沒有資料</div>;
   const hasMask = "#21aa93";
   const emptyMask = "#434343";
   return dataList.map((itm, idx) => {
@@ -93,7 +98,7 @@ const MapItem = React.memo(({ dataList }) => {
   });
 });
 
-const MapList = ({ mapData }) => {
+const MapList = ({ mapData, sessionInput }) => {
   const [searchText, setSearchText] = useState("");
   const [dataList, setDataList] = useState(mapData);
 
@@ -104,15 +109,22 @@ const MapList = ({ mapData }) => {
     setDataList(mapArr);
   };
 
-  const debounceSearch = useRef(debounce(dataFilter, 800));
+  const debounceSearch = useRef(debounce(dataFilter, 500));
+
+  useEffect(() => {
+    if (sessionInput === "") return;
+    setSearchText(sessionInput);
+  }, []);
+
   useEffect(() => {
     debounceSearch.current(searchText);
+    sessionStorage.setItem("inputValue", searchText);
   }, [searchText]);
 
   return (
     <React.Fragment>
       <div className="header">
-        <h1>口罩即時庫存列表</h1>
+        <h1 onClick={() => window.location.reload()}>口罩即時庫存列表</h1>
         <div className="listWrap">
           <div className="inputWrap">
             <span>請輸入地址：</span>
@@ -123,13 +135,16 @@ const MapList = ({ mapData }) => {
                 setSearchText(e.target.value);
               }}
               value={searchText}
-              placeholder="台北市、大安區、基隆路"
+              placeholder="市、區、路"
             />
           </div>
         </div>
       </div>
       <div className="mapList">
         <MapItem dataList={dataList}></MapItem>
+      </div>
+      <div className="reload" onClick={() => window.location.reload()}>
+        {/* 重新整理 */}
       </div>
     </React.Fragment>
   );
@@ -139,6 +154,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mapData, setMapData] = useState([]);
   const [errText, setErrText] = useState("");
+  const [sessionInput, setSessionInput] = useState("");
+  // const [time, setTime] = useState(0);
   useEffect(() => {
     fetch(
       "https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json"
@@ -147,15 +164,40 @@ function App() {
         return response.json();
       })
       .then(data => {
-        // let mapArr = Object.values(data)[1].map(itm => Object.values(itm)[1]);
         let mapArr = Object.values(data)[1];
         setMapData(mapArr);
-        // setTest(test);
+        setSessionInput(sessionInputValue);
         setIsLoading(false);
-        console.log("create by Jeremy Chang 02272348");
+        console.log(`create by Jeremy Chang 200302`);
       })
       .catch(err => setErrText("好像壞了"));
   }, []);
+  // useEffect(() => {
+  //   if (time < 300) {
+  //     setTimeout(() => {
+  //       setTime(time + 1);
+  //     }, 1000);
+  //     console.log("time", time);
+  //   }
+  //   if (time === 300) {
+  //     setTime(0);
+  //     fetch(
+  //       "https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json"
+  //     )
+  //       .then(response => {
+  //         return response.json();
+  //       })
+  //       .then(data => {
+  //         let mapArr = Object.values(data)[1];
+  //         console.log("mapArr", mapArr[0]);
+  //         setMapData(mapArr);
+  //         setSessionInput(sessionInputValue);
+  //         setIsLoading(false);
+  //         console.log("create by Jeremy Chang 02272348");
+  //       })
+  //       .catch(err => setIsLoading(true), setErrText("好像壞了"));
+  //   }
+  // }, [time]);
   if (isLoading)
     return (
       <div className="App">
@@ -164,13 +206,7 @@ function App() {
         </div>
       </div>
     );
-  if (errText)
-    return (
-      <div className="App">
-        <div>{errText}</div>
-      </div>
-    );
-  if (!mapData || mapData.length === 0)
+  if (errText || !mapData || mapData.length === 0)
     return (
       <div className="App">
         <div>沒有資料</div>
@@ -178,7 +214,7 @@ function App() {
     );
   return (
     <div className="App">
-      <MapList mapData={mapData} isLoading={isLoading} />
+      <MapList mapData={mapData} sessionInput={sessionInput} />
       <div className="designer">by Jeremy Chang</div>
       <div className="information">
         資料提供：

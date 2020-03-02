@@ -40,6 +40,16 @@ textarea {
     text-align: center;
     padding: 10px 0;
   }
+  > .reload {
+    position: fixed;
+    bottom: 60px;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    // background-color: #f00;
+    color: #fff;
+    background-image: url(./reload.png);
+  }
 }
 @media screen and (max-width: 996px) {
   .App {
